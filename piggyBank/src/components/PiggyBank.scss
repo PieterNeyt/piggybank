@@ -1,7 +1,6 @@
 .piggy-bank {
-  position: relative;
-
   aspect-ratio: 1.4;
+  position: relative;
   width: 30rem;
   background-image: url('../assets/img/piggy.png');
   background-size: cover;
@@ -9,25 +8,72 @@
   background-repeat: no-repeat;
 
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   .fields {
     display: flex;
     flex-direction: column;
+    height: 8rem;
+    width: 8rem;
+    padding: 1rem;
     align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #111;
+    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
     line-height: 1;
 
     .owner {
-      font-size: 2rem;
+      font-size: 1.5rem;
+      font-style: italic;
     }
 
     .balance {
       font-weight: bold;
-      font-size: 4rem;
+      font-size: 3rem;
     }
   }
+
+  &.bg-classic {
+    background-image: url('../assets/img/piggy.png');
+  }
+
+  &.bg-cocVault {
+    background-image: url('../assets/img/cocVault.png');
+  }
+
+  &.bg-bank {
+    background-image: url('../assets/img/bank.png');
+  }
+
+
+  .bg-controls {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+
+    .bg-btn {
+      width: 1.6rem;
+      height: 2rem;
+      border-radius: 0.25rem;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      user-select: none;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
 }
+
 
 .owner-badge {
   position: absolute;

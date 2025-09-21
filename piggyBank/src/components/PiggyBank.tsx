@@ -1,6 +1,8 @@
 import './PiggyBank.scss'
 import type {Account} from "../model/Account.ts";
 import type {Owner} from "../model/Owner.ts";
+import {useState} from "react";
+
 
 interface PiggyBankProps {
     account: Account
@@ -8,22 +10,50 @@ interface PiggyBankProps {
 
 interface OwnerBadgeProps {
     owner: Owner;
+    onClick: () => void;
 }
 
-export function OwnerBadge({owner}: OwnerBadgeProps) {
+export function OwnerBadge({owner, onClick}: OwnerBadgeProps) {
     return (
-        <div className="owner-badge" title={owner.name}><img src={owner.image} alt={owner.name}/></div>
+        <div className="owner-badge" title={owner.name} onClick={onClick}><img src={owner.image} alt={owner.name}/>
+        </div>
     )
 }
 
+const backgrounds = ["piggy", "bank", "cocVault"] as const;
+
 export function PiggyBank({account}: PiggyBankProps) {
+    const [showFields, setShowFields] = useState(false)
+    const [currentIndex, setCurrentIndex] = useState(0)
+
+    const changeBackgroundIndex = (step: number) => {
+        setCurrentIndex(i => (i + step + backgrounds.length) % backgrounds.length)
+    }
+    const goPrev = () => changeBackgroundIndex(-1)
+    const goNext = () => changeBackgroundIndex(1)
+
+    const background = backgrounds[currentIndex]
+
+
     return (
-        <div className="piggy-bank">
-            <OwnerBadge owner={account.owner}/>
-            <div className="fields">
-                <div className="owner">{account.owner.name}'s piggybank</div>
-                <div className="balance">Balance: {account.balance}</div>
+        <div className={`piggy-bank bg-${background}`}>
+            <div className="bg-controls">
+                <button type="button" className="bg-btn" onClick={goPrev} aria-label="Previous theme">◀</button>
+                <button type="button" className="bg-btn" onClick={goNext} aria-label="Next theme">▶</button>
             </div>
+
+            <OwnerBadge
+                owner={account.owner}
+                onClick={() => setShowFields(s => !s)}
+                aria-expanded={showFields}
+            />
+
+            {showFields && (
+                <div className="fields">
+                    <div className="owner">{account.owner.name}</div>
+                    <div className="balance">{account.balance}</div>
+                </div>
+            )}
         </div>
     )
 }
