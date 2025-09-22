@@ -1,19 +1,20 @@
 import './App.css'
-import {PiggyBank} from "./components/PiggyBank.tsx";
-import type {Account} from "./model/Account.ts";
-
-const account: Account = {
-    balance: 100,
-    owner: {
-        name: "royale king",
-        image: "https://sm.ign.com/ign_za/cover/c/clash-roya/clash-royale_88kr.jpg"
-    }
-}
-
+import {BrowserRouter, Navigate, Route, Routes} from "react-router";
+import {PiggyBankDetail} from "./pages/PiggyBankDetail.tsx";
+import {PiggyBankList} from "./pages/PiggyBankList.tsx";
 
 function App() {
     return (
-        <PiggyBank account={account}/>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/piggybanks/:id" element={<PiggyBankDetail/>}/>
+                <Route path="/piggybanks" element={<PiggyBankList/>}/>
+                <Route path="/" element={<Navigate to="piggybanks"/>}/>
+
+            </Routes>
+
+        </BrowserRouter>
+
     )
 }
 

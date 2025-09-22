@@ -1,24 +1,14 @@
 import './PiggyBank.scss'
+import './OwnerBadge.scss'
 import type {Account} from "../model/Account.ts";
-import type {Owner} from "../model/Owner.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {OwnerBadge} from "./OwnerBadge.tsx";
 
 
 interface PiggyBankProps {
     account: Account
 }
 
-interface OwnerBadgeProps {
-    owner: Owner;
-    onClick: () => void;
-}
-
-export function OwnerBadge({owner, onClick}: OwnerBadgeProps) {
-    return (
-        <div className="owner-badge" title={owner.name} onClick={onClick}><img src={owner.image} alt={owner.name}/>
-        </div>
-    )
-}
 
 const backgrounds = ["piggy", "bank", "cocVault"] as const;
 
@@ -34,6 +24,14 @@ export function PiggyBank({account}: PiggyBankProps) {
 
     const background = backgrounds[currentIndex]
 
+    useEffect(() => {
+        if (!showFields) return
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setShowFields(false)
+        }
+        window.addEventListener("keydown", onKeyDown)
+        return () => window.removeEventListener("keydown", onKeyDown)
+    }, [showFields])
 
     return (
         <div className={`piggy-bank bg-${background}`}>
